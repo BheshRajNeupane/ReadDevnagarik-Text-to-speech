@@ -96,13 +96,10 @@ utterance.onerror = (event) => {
     // Error handling logic
 };
 ```
+![image](https://github.com/user-attachments/assets/fdf5b961-20a5-4a78-a598-2a2af062715a)
 
-## Contributing
+![speaking](https://github.com/user-attachments/assets/a6f00bda-a188-49ac-9a96-eef91eda206c)
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+
 
 
