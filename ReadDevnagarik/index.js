@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let voices = [];
 
+    
     // Initialize voices
     function loadVoices() {
         // retrieve a list of the voices available on the client's device
@@ -88,9 +89,28 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         utterance.onerror = (event) => {
-            console.log("---onerr--",event);
+            console.log("Speech Error:", {
+                type: event.error,
+                time: event.elapsedTime,
+                text: event.utterance.text
+            });
+
+            switch (event.error) {
+                case 'interrupted':
+                    //Try again
+                    handleInterruptedSpeech(utterance);
+                  
+                    break;
+                case 'canceled' :
+                    updateStatus(' रद्द गरियो');
+                    break; 
             
-            updateStatus('त्रुटि: ' + event.error);
+                default:
+                    updateStatus('त्रुटि: ' + event.error);
+                    break;
+            }
+            
+           
             updateButtons(false);
         };
 
@@ -107,6 +127,21 @@ document.addEventListener('DOMContentLoaded', () => {
         resumeButton.disabled = !isSpeaking;
         stopButton.disabled = !isSpeaking;
     }
+
+    // Helper function to handle interrupted speech
+    function handleInterruptedSpeech(utterance) {
+        const retryCount = utterance.retryCount || 0;
+        if (retryCount < 3) {
+            utterance.retryCount = retryCount + 1;
+            console.log(`Retrying speech, attempt ${utterance.retryCount}`);
+            setTimeout(() => {
+                speechSynthesis.speak(utterance);
+            }, 100);
+        } else {
+            updateStatus('पुन: प्रयास असफल भयो');
+        }
+    }
+
 
     // Event listeners
     speakButton.addEventListener('click', speak);
